@@ -1,0 +1,22 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# IDE
+.vscode/
+
+# Database files and backups
+*.db
+*.sqlite
+*.sqlite3
+backups/
+
+# Local logs
+*.log

@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Dashboard | Library Management System</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        background: #f4f7fb;
+        color: #1f2937;
+    }
+
+    /* ================= SIDEBAR ================= */
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 245px;
+        height: 100vh;
+        background: #173b70;
+        color: white;
+        padding: 25px 15px;
+        z-index: 1000;
+    }
+
+    .logo {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .logo .icon {
+        font-size: 42px;
+        margin-bottom: 8px;
+    }
+
+    .logo h2 {
+        font-size: 19px;
+        line-height: 1.3;
+    }
+
+    .logo p {
+        font-size: 11px;
+        color: #cbd8ee;
+        margin-top: 5px;
+    }
+
+    .menu-title {
+        font-size: 11px;
+        color: #aebfdb;
+        text-transform: uppercase;
+        margin: 20px 12px 10px;
+        letter-spacing: 1px;
+    }
+
+    .menu a {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        text-decoration: none;
+        color: #dce7f7;
+        padding: 13px 14px;
+        border-radius: 8px;
+        margin-bottom: 6px;
+        font-size: 14px;
+        transition: 0.25s;
+    }
+
+    .menu a:hover,
+    .menu a.active {
+        background: #ffffff;
+        color: #173b70;
+    }
+
+    .menu-icon {
+        width: 23px;
+        text-align: center;
+        font-size: 17px;
+    }
+
+    .logout-menu {
+        position: absolute;
+        bottom: 25px;
+        left: 15px;
+        right: 15px;
+    }
+
+    .logout-menu a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px;
+        background: #dc3545;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: 0.25s;
+    }
+
+    .logout-menu a:hover {
+        background: #b92332;
+    }
+
+    /* ================= MAIN ================= */
+
+    .main {
+        margin-left: 245px;
+        min-height: 100vh;
+    }
+
+    /* ================= TOPBAR ================= */
+
+    .topbar {
+        height: 75px;
+        background: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 32px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .topbar h1 {
+        font-size: 23px;
+        color: #172b4d;
+    }
+
+    .topbar p {
+        font-size: 13px;
+        color: #7b8794;
+        margin-top: 4px;
+    }
+
+    .admin {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .admin-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #173b70;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    .admin-info {
+        text-align: right;
+    }
+
+    .admin-info strong {
+        font-size: 14px;
+    }
+
+    .admin-info span {
+        display: block;
+        font-size: 11px;
+        color: #7b8794;
+        margin-top: 3px;
+    }
+
+    /* ================= CONTENT ================= */
+
+    .content {
+        padding: 30px;
+    }
+
+    .welcome-box {
+        background: linear-gradient(135deg, #173b70, #285ca6);
+        color: white;
+        border-radius: 14px;
+        padding: 27px 30px;
+        margin-bottom: 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 8px 25px rgba(23, 59, 112, 0.18);
+    }
+
+    .welcome-box h2 {
+        font-size: 24px;
+        margin-bottom: 7px;
+    }
+
+    .welcome-box p {
+        color: #dce7f7;
+        font-size: 14px;
+    }
+
+    .welcome-book {
+        font-size: 65px;
+        opacity: 0.9;
+    }
+
+    /* ================= STAT CARDS ================= */
+
+    .section-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: #253858;
+    }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 18px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 12px;
+        padding: 21px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        border: 1px solid #edf0f5;
+        transition: 0.25s;
+    }
+
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.10);
+    }
+
+    .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+    }
+
+    .card-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 10px;
+        background: #eaf1fb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 23px;
+    }
+
+    .card-label {
+        color: #718096;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .number {
+        font-size: 29px;
+        font-weight: bold;
+        color: #173b70;
+    }
+
+    /* ================= QUICK ACTIONS ================= */
+
+    .quick-section {
+        margin-top: 32px;
+    }
+
+    .quick-links {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 16px;
+    }
+
+    .quick-link {
+        background: white;
+        border: 1px solid #e5eaf1;
+        border-radius: 11px;
+        padding: 19px 12px;
+        text-align: center;
+        text-decoration: none;
+        color: #253858;
+        transition: 0.25s;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .quick-link:hover {
+        background: #173b70;
+        color: white;
+        transform: translateY(-3px);
+    }
+
+    .quick-link-icon {
+        font-size: 27px;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .quick-link span {
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    /* ================= INFO AREA ================= */
+
+    .info-area {
+        margin-top: 32px;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+    }
+
+    .info-box {
+        background: white;
+        border-radius: 12px;
+        padding: 23px;
+        border: 1px solid #edf0f5;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .info-box h3 {
+        color: #253858;
+        margin-bottom: 15px;
+        font-size: 17px;
+    }
+
+    .info-box p {
+        color: #718096;
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    .system-status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 15px;
+        padding: 12px;
+        background: #f0fff4;
+        border-radius: 8px;
+        color: #218838;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .status-dot {
+        width: 9px;
+        height: 9px;
+        background: #28a745;
+        border-radius: 50%;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+        text-align: center;
+        padding: 25px;
+        margin-top: 25px;
+        color: #8a94a6;
+        font-size: 12px;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 1150px) {
+        .cards {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .quick-links {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 800px) {
+        .sidebar {
+            width: 70px;
+            padding: 20px 8px;
+        }
+
+        .logo h2,
+        .logo p,
+        .menu-title,
+        .menu a span:not(.menu-icon),
+        .logout-menu span {
+            display: none;
+        }
+
+        .logo .icon {
+            font-size: 32px;
+        }
+
+        .menu a {
+            justify-content: center;
+            padding: 13px 5px;
+        }
+
+        .logout-menu {
+            left: 8px;
+            right: 8px;
+        }
+
+        .main {
+            margin-left: 70px;
+        }
+
+        .topbar {
+            padding: 0 18px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .cards {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .quick-links {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .info-area {
+            grid-template-columns: 1fr;
+        }
+
+        .welcome-book {
+            display: none;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .topbar {
+            height: auto;
+            padding: 15px;
+        }
+
+        .topbar h1 {
+            font-size: 18px;
+        }
+
+        .admin-info {
+            display: none;
+        }
+
+        .content {
+            padding: 15px;
+        }
+
+        .welcome-box {
+            padding: 20px;
+        }
+
+        .welcome-box h2 {
+            font-size: 19px;
+        }
+
+        .cards {
+            grid-template-columns: 1fr;
+        }
+
+        .quick-links {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="icon">📚</div>
+        <h2>Library Management</h2>
+        <p>ADMIN PANEL</p>
+    </div>
+
+    <div class="menu-title">Main Menu</div>
+
+    <nav class="menu">
+
+        <a href="{{ url_for('dashboard') }}" class="active">
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="{{ url_for('books') }}">
+            <span class="menu-icon">📚</span>
+            <span>Manage Books</span>
+        </a>
+
+        <a href="{{ url_for('students') }}">
+            <span class="menu-icon">👨‍🎓</span>
+            <span>Students</span>
+        </a>
+
+        <a href="{{ url_for('issue_book') }}">
+            <span class="menu-icon">📖</span>
+            <span>Issue Book</span>
+        </a>
+
+        <a href="{{ url_for('return_book') }}">
+            <span class="menu-icon">🔄</span>
+            <span>Return Book</span>
+        </a>
+
+        <a href="{{ url_for('manage_fine') }}">
+            <span class="menu-icon">💰</span>
+            <span>Manage Fine</span>
+        </a>
+
+    </nav>
+
+    <div class="logout-menu">
+        <a href="{{ url_for('logout') }}">
+            <span>🚪</span>
+            <span>Logout</span>
+        </a>
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <div>
+            <h1>Dashboard</h1>
+            <p>Library Management System</p>
+        </div>
+
+        <div class="admin">
+
+            <div class="admin-info">
+                <strong>{{ session.get('username') }}</strong>
+                <span>Administrator</span>
+            </div>
+
+            <div class="admin-avatar">
+                👤
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <section class="content">
+
+        <!-- WELCOME -->
+
+        <div class="welcome-box">
+
+            <div>
+                <h2>
+                    Welcome, {{ session.get('username') }} 👋
+                </h2>
+
+                <p>
+                    Manage your library efficiently from one place.
+                </p>
+            </div>
+
+            <div class="welcome-book">
+                📚
+            </div>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <h3 class="section-title">
+            Library Overview
+        </h3>
+
+        <div class="cards">
+
+            <!-- TOTAL BOOKS -->
+
+            <div class="card">
+
+                <div class="card-top">
+                    <div class="card-label">
+                        Total Books
+                    </div>
+
+                    <div class="card-icon">
+                        📚
+                    </div>
+                </div>
+
+                <div class="number">
+                    {{ total_books }}
+                </div>
+
+            </div>
+
+
+            <!-- TOTAL STUDENTS -->
+
+            <div class="card">
+
+                <div class="card-top">
+                    <div class="card-label">
+                        Total Students
+                    </div>
+
+                    <div class="card-icon">
+                        👨‍🎓
+                    </div>
+                </div>
+
+                <div class="number">
+                    {{ total_students }}
+                </div>
+
+            </div>
+
+
+            <!-- CATEGORIES -->
+
+            <div class="card">
+
+                <div class="card-top">
+                    <div class="card-label">
+                        Categories
+                    </div>
+
+                    <div class="card-icon">
+                        📂
+                    </div>
+                </div>
+
+                <div class="number">
+                    {{ total_categories }}
+                </div>
+
+            </div>
+
+
+            <!-- ISSUED BOOKS -->
+
+            <div class="card">
+
+                <div class="card-top">
+                    <div class="card-label">
+                        Issued Books
+                    </div>
+
+                    <div class="card-icon">
+                        📖
+                    </div>
+                </div>
+
+                <div class="number">
+                    {{ total_issues }}
+                </div>
+
+            </div>
+
+
+            <!-- UNPAID FINES -->
+
+            <div class="card">
+
+                <div class="card-top">
+                    <div class="card-label">
+                        Unpaid Fines
+                    </div>
+
+                    <div class="card-icon">
+                        💰
+                    </div>
+                </div>
+
+                <div class="number">
+                    ₹{{ total_fines }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="quick-section">
+
+            <h3 class="section-title">
+                Quick Actions
+            </h3>
+
+            <div class="quick-links">
+
+                <a href="{{ url_for('books') }}"
+                   class="quick-link">
+
+                    <span class="quick-link-icon">
+                        📚
+                    </span>
+
+                    <span>
+                        Manage Books
+                    </span>
+
+                </a>
+
+
+                <a href="{{ url_for('students') }}"
+                   class="quick-link">
+
+                    <span class="quick-link-icon">
+                        👨‍🎓
+                    </span>
+
+                    <span>
+                        Manage Students
+                    </span>
+
+                </a>
+
+
+                <a href="{{ url_for('issue_book') }}"
+                   class="quick-link">
+
+                    <span class="quick-link-icon">
+                        📖
+                    </span>
+
+                    <span>
+                        Issue Book
+                    </span>
+
+                </a>
+
+
+                <a href="{{ url_for('return_book') }}"
+                   class="quick-link">
+
+                    <span class="quick-link-icon">
+                        🔄
+                    </span>
+
+                    <span>
+                        Return Book
+                    </span>
+
+                </a>
+
+
+                <a href="{{ url_for('manage_fine') }}"
+                   class="quick-link">
+
+                    <span class="quick-link-icon">
+                        💰
+                    </span>
+
+                    <span>
+                        Manage Fine
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- INFORMATION -->
+
+        <div class="info-area">
+
+            <div class="info-box">
+
+                <h3>
+                    📋 Library Management
+                </h3>
+
+                <p>
+                    Use the navigation menu to manage books,
+                    students, book issuing, book returns and
+                    library fines. The dashboard provides a
+                    quick overview of the current library data.
+                </p>
+
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    System is ready to use
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <h3>
+                    ⚡ Quick Tip
+                </h3>
+
+                <p>
+                    Keep book availability and student records
+                    updated regularly for accurate library
+                    management.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+        © 2026 Library Management System |
+        Admin Dashboard
+    </footer>
+
+</main>
+```
+
+</body>
+
+</html>

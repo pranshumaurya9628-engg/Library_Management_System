@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Issue Book - Library Management System</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 245px;
+            height: 100vh;
+            background: #173b70;
+            color: white;
+            padding: 25px 15px;
+            z-index: 1000;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo-icon {
+            font-size: 40px;
+            margin-bottom: 7px;
+        }
+
+        .logo h2 {
+            font-size: 18px;
+            line-height: 1.3;
+        }
+
+        .logo p {
+            font-size: 10px;
+            color: #cbd8ee;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            color: #aebfdb;
+            text-transform: uppercase;
+            margin: 20px 12px 10px;
+            letter-spacing: 1px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            text-decoration: none;
+            color: #dce7f7;
+            padding: 13px 14px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-size: 14px;
+            transition: 0.25s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: white;
+            color: #173b70;
+        }
+
+        .menu-icon {
+            width: 23px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .logout-menu {
+            position: absolute;
+            bottom: 25px;
+            left: 15px;
+            right: 15px;
+        }
+
+        .logout-menu a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: #dc3545;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .logout-menu a:hover {
+            background: #b92332;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 245px;
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           TOPBAR
+        ========================= */
+
+        .topbar {
+            height: 75px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #173b70;
+        }
+
+        .page-subtitle {
+            color: #6b7280;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .admin-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .admin-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #e8edff;
+            color: #173b70;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+            padding: 30px;
+        }
+
+
+        /* =========================
+           BACK TO DASHBOARD
+        ========================= */
+
+        .back-dashboard {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: #173b70;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: 0.2s;
+        }
+
+        .back-dashboard:hover {
+            background: #102d57;
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================
+           FLASH MESSAGES
+        ========================= */
+
+        .alert {
+            padding: 13px 16px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .alert-success {
+            background: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #badbcc;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #664d03;
+            border: 1px solid #ffecb5;
+        }
+
+        .alert-info {
+            background: #cff4fc;
+            color: #055160;
+            border: 1px solid #b6effb;
+        }
+
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+        }
+
+        .card-header {
+            margin-bottom: 22px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .card-description {
+            color: #6b7280;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+
+        /* =========================
+           ISSUE FORM
+        ========================= */
+
+        .issue-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 18px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: white;
+            color: #1f2937;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        select:focus {
+            border-color: #173b70;
+            box-shadow: 0 0 0 3px rgba(23,59,112,0.10);
+        }
+
+        select option {
+            color: #1f2937;
+            background: white;
+        }
+
+        .issue-btn {
+            padding: 12px 22px;
+            background: #173b70;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .issue-btn:hover {
+            background: #102d58;
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================
+           INFO BOX
+        ========================= */
+
+        .info-box {
+            margin-top: 20px;
+            padding: 14px 16px;
+            background: #f1f5ff;
+            border: 1px solid #dbe4ff;
+            border-radius: 8px;
+            color: #374151;
+            font-size: 13px;
+        }
+
+        .info-box strong {
+            color: #173b70;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        thead {
+            background: #f1f5ff;
+        }
+
+        th {
+            padding: 14px 12px;
+            text-align: center;
+            color: #374151;
+            font-size: 13px;
+            font-weight: bold;
+            border-bottom: 1px solid #e5e7eb;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px 12px;
+            text-align: center;
+            font-size: 13px;
+            border-bottom: 1px solid #eef0f4;
+            color: #4b5563;
+            white-space: nowrap;
+        }
+
+        tbody tr:hover {
+            background: #f8faff;
+        }
+
+        .issue-id {
+            color: #173b70;
+            font-weight: bold;
+        }
+
+        .student-name,
+        .book-name {
+            color: #1f2937;
+            font-weight: 600;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #fff3cd;
+            color: #664d03;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .empty-row {
+            padding: 30px !important;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+           Sidebar remains fixed
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .issue-form {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .issue-btn {
+                width: 100%;
+            }
+
+        }
+
+
+        @media (max-width: 800px) {
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .page-title {
+                font-size: 20px;
+            }
+
+            .admin-name {
+                display: none;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .issue-form {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .content {
+                padding: 15px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .topbar {
+                height: 65px;
+            }
+
+            .page-title {
+                font-size: 18px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            📚
+        </div>
+
+        <h2>
+            Library Management
+        </h2>
+
+        <p>
+            ADMIN PANEL
+        </p>
+
+    </div>
+
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+
+    <nav class="menu">
+
+        <a href="{{ url_for('dashboard') }}">
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+        </a>
+
+
+        <a href="{{ url_for('books') }}">
+            <span class="menu-icon">📚</span>
+            <span>Manage Books</span>
+        </a>
+
+
+        <a href="{{ url_for('students') }}">
+            <span class="menu-icon">👨‍🎓</span>
+            <span>Students</span>
+        </a>
+
+
+        <a href="{{ url_for('issue_book') }}"
+           class="active">
+
+            <span class="menu-icon">📖</span>
+            <span>Issue Book</span>
+
+        </a>
+
+
+        <a href="{{ url_for('return_book') }}">
+
+            <span class="menu-icon">↩️</span>
+            <span>Return Book</span>
+
+        </a>
+
+
+        <a href="{{ url_for('manage_fine') }}">
+
+            <span class="menu-icon">💰</span>
+            <span>Manage Fine</span>
+
+        </a>
+
+    </nav>
+
+
+    <div class="logout-menu">
+
+        <a href="{{ url_for('logout') }}">
+
+            <span>🚪</span>
+            <span>Logout</span>
+
+        </a>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<div class="main">
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <div>
+
+            <div class="page-title">
+                Issue Book
+            </div>
+
+            <div class="page-subtitle">
+                Issue books to registered library students
+            </div>
+
+        </div>
+
+
+        <div class="admin-box">
+
+            <div class="admin-icon">
+                👤
+            </div>
+
+            <span class="admin-name">
+                {{ session.get('username', 'Admin') }}
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+
+        <!-- BACK TO DASHBOARD -->
+
+        <a href="{{ url_for('dashboard') }}" class="back-dashboard">
+            ← Back to Dashboard
+        </a>
+
+
+        <!-- FLASH MESSAGES -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+
+        <!-- =========================
+             ISSUE NEW BOOK
+        ========================= -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div class="card-title">
+                    📖 Issue New Book
+                </div>
+
+                <div class="card-description">
+                    Select a student and an available book to issue it.
+                </div>
+
+            </div>
+
+
+            <form method="POST"
+                  action="{{ url_for('issue_book') }}"
+                  class="issue-form">
+
+
+                <!-- STUDENT -->
+
+                <div class="form-group">
+
+                    <label for="student_id">
+                        👨‍🎓 Select Student
+                    </label>
+
+                    <select name="student_id"
+                            id="student_id"
+                            required>
+
+                        <option value="">
+                            Select Student
+                        </option>
+
+
+                        {% for student in students %}
+
+                            <option value="{{ student.student_id }}">
+
+                                {{ student.name }}
+                                - Roll No: {{ student.roll_no }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- BOOK -->
+
+                <div class="form-group">
+
+                    <label for="book_id">
+                        📚 Select Book
+                    </label>
+
+                    <select name="book_id"
+                            id="book_id"
+                            required>
+
+                        <option value="">
+                            Select Available Book
+                        </option>
+
+
+                        {% for book in books %}
+
+                            <option value="{{ book.book_id }}">
+
+                                {{ book.title }}
+                                - {{ book.author }}
+                                (Available: {{ book.available_quantity }})
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- BUTTON -->
+
+                <button type="submit"
+                        class="issue-btn">
+
+                    📤 Issue Book
+
+                </button>
+
+
+            </form>
+
+
+            <div class="info-box">
+
+                💡 <strong>Note:</strong>
+                Books are issued for the default loan period configured
+                in the system. Please make sure the selected book has
+                available quantity.
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             ISSUED BOOKS
+        ========================= -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div class="card-title">
+                    📚 Currently Issued Books
+                </div>
+
+                <div class="card-description">
+                    List of books that are currently issued to students.
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Student</th>
+                            <th>Roll No</th>
+                            <th>Book</th>
+                            <th>Issue Date</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for issue in issued_books %}
+
+                        <tr>
+
+                            <td class="issue-id">
+                                {{ issue.issue_id }}
+                            </td>
+
+                            <td class="student-name">
+                                {{ issue.student_name }}
+                            </td>
+
+                            <td>
+                                {{ issue.roll_no }}
+                            </td>
+
+                            <td class="book-name">
+                                {{ issue.book_title }}
+                            </td>
+
+                            <td>
+                                {{ issue.issue_date }}
+                            </td>
+
+                            <td>
+                                {{ issue.due_date }}
+                            </td>
+
+                            <td>
+
+                                <span class="status">
+                                    {{ issue.status }}
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="7"
+                                class="empty-row">
+
+                                📚 No books issued yet.
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+</body>
+</html>
