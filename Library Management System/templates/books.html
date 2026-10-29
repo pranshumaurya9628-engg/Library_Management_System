@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Books | Library Management System</title>
+    <title>Manage Books - Library Management System</title>
 
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
-            background: #f4f7fb;
-            color: #222;
+            background: #f4f6f9;
+            color: #333;
         }
+
+        /* ================= SIDEBAR (same as students.html) ================= */
 
         .sidebar {
             position: fixed;
@@ -103,52 +105,93 @@
             text-decoration: none;
             border-radius: 8px;
             font-weight: bold;
+            transition: 0.25s;
         }
 
         .logout-menu a:hover {
             background: #b92332;
+            transform: translateY(-1px);
         }
 
-        .main {
+
+        /* ================= MAIN CONTENT ================= */
+
+        .main-content {
             margin-left: 245px;
             min-height: 100vh;
         }
 
+
+        /* ================= TOPBAR ================= */
+
         .topbar {
+            height: 75px;
             background: white;
-            padding: 22px 30px;
-            border-bottom: 1px solid #e2e7ef;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
-        .topbar h1 {
-            font-size: 25px;
-            color: #173b70;
-        }
-
-        .topbar p {
-            color: #777;
-            margin-top: 5px;
-            font-size: 13px;
-        }
-
-        .admin-info {
-            background: #eef4ff;
-            color: #173b70;
-            padding: 10px 15px;
-            border-radius: 8px;
+        .page-title {
+            font-size: 23px;
             font-weight: bold;
-            font-size: 13px;
+            color: #173b70;
         }
+
+        .page-subtitle {
+            font-size: 13px;
+            color: #777;
+            margin-top: 4px;
+        }
+
+
+        /* ================= ADMIN PROFILE (same as students.html) ================= */
+
+        .admin-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-name {
+            text-align: right;
+            font-size: 14px;
+            font-weight: bold;
+            color: #253858;
+        }
+
+        .admin-name::after {
+            content: "Administrator";
+            display: block;
+            font-size: 11px;
+            color: #7b8794;
+            font-weight: normal;
+            margin-top: 3px;
+        }
+
+        .admin-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #173b70;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+
+        /* ================= CONTENT ================= */
 
         .content {
             padding: 30px;
         }
 
-        /* BACK TO DASHBOARD */
-        .back-dashboard {
+        .back-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -163,56 +206,64 @@
             transition: 0.2s;
         }
 
-        .back-dashboard:hover {
-            background: #102d57;
+        .back-btn:hover {
+            background: #102e59;
             transform: translateY(-1px);
         }
 
-        .page-heading {
-            margin-bottom: 25px;
-        }
 
-        .page-heading h2 {
-            color: #173b70;
-            font-size: 22px;
-        }
-
-        .page-heading p {
-            color: #777;
-            margin-top: 5px;
-            font-size: 13px;
-        }
+        /* ================= FLASH MESSAGE ================= */
 
         .message {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
             padding: 12px 15px;
-            border-radius: 7px;
+            border-radius: 8px;
             margin-bottom: 20px;
-            background: #dff6e5;
-            color: #176b2c;
-            border: 1px solid #bce5c7;
-            font-size: 13px;
+            font-size: 14px;
         }
 
-        .add-box,
-        .books-box {
+
+        /* ================= CARD ================= */
+
+        .card {
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             margin-bottom: 25px;
+            border: 1px solid #e8ecf2;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
         }
 
-        .box-title {
-            color: #173b70;
-            font-size: 17px;
-            font-weight: bold;
-            margin-bottom: 20px;
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 22px;
         }
+
+        .card-title {
+            color: #173b70;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .card-description {
+            color: #777;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+
+        /* ================= FORM ================= */
 
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
+            grid-template-columns: repeat(4,1fr);
+            gap: 15px;
+            align-items: end;
         }
 
         .form-group {
@@ -221,186 +272,262 @@
         }
 
         .form-group label {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
-            color: #444;
+            color: #4a5568;
             margin-bottom: 7px;
         }
 
         .form-group input,
         .form-group select {
-            padding: 11px 12px;
-            border: 1px solid #d5dce7;
-            border-radius: 7px;
+            width: 100%;
+            height: 44px;
+            padding: 0 12px;
+            border: 1px solid #d8dee8;
+            border-radius: 8px;
             outline: none;
+            background: #fafbfc;
+            color: #253858;
             font-size: 13px;
+            transition: 0.2s;
         }
 
         .form-group input:focus,
         .form-group select:focus {
-            border-color: #173b70;
+            border-color: #1769d1;
+            background : white;
+            box-shadow: 0 0 0 3px rgba(23, 105, 209, 0.08);
         }
 
-        .submit-btn {
-            margin-top: 20px;
-            padding: 11px 20px;
+        .add-btn {
+            width: 100%;
+            height: 44px;
+            padding: 0 18px;
             background: #173b70;
             color: white;
             border: none;
-            border-radius: 7px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .submit-btn:hover {
-            background: #102d57;
-        }
-
-        .books-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 15px;
-        }
-
-        .book-count {
-            color: #777;
+            border-radius: 8px;
             font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .add-btn:hover {
+            background: #102e59;
+            transform: translateY(-1px);
+        }
+
+
+        /* ================= SEARCH ================= */
+
+        .search-box {
+            position: relative;
+            width: 300px;
         }
 
         .search-box input {
-            padding: 10px 13px;
-            border: 1px solid #d5dce7;
+            width: 100%;
+            height: 40px;
+            border: 1px solid #d7dce3;
             border-radius: 7px;
-            width: 230px;
+            padding: 0 12px 0 38px;
+            font-size: 13px;
             outline: none;
         }
 
+        .search-box input:focus {
+            border-color: #173b70;
+            box-shadow: 0 0 0 3px rgba(23, 59, 112, 0.08);
+        }
+
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 12px;
+            top: 10px;
+            font-size: 14px;
+            z-index: 1;
+        }
+
+
+        /* ================= TABLE ================= */
+
         .table-container {
+            width: 100%;
             overflow-x: auto;
         }
 
         table {
             width: 100%;
+            min-width: 950px;
             border-collapse: collapse;
         }
 
+        thead {
+            background: #f7f9fc;
+        }
+
         th {
-            background: #173b70;
-            color: white;
-            padding: 13px;
-            text-align: left;
-            font-size: 12px;
+            padding: 13px 12px;
+            text-align: center;
+            font-size: 13px;
+            color: #444;
+            font-weight: bold;
+            border-bottom: 1px solid #e3e7ed;
         }
 
         td {
-            padding: 13px;
-            border-bottom: 1px solid #e8edf3;
+            padding: 13px 12px;
+            text-align: center;
             font-size: 13px;
+            color: #555;
+            border-bottom: 1px solid #edf0f4;
         }
 
-        tr:hover {
-            background: #f7faff;
+        tbody tr:hover {
+            background: #fafbfd;
+        }
+
+        .book-id {
+            font-weight: bold;
+            color: #173b70;
+        }
+
+        .book-title {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .available {
+            color: #198754;
+            font-weight: bold;
         }
 
         .delete-btn {
-            background: #dc3545;
-            color: white;
             border: none;
-            padding: 7px 11px;
+            background: #fde8ea;
+            color: #dc3545;
+            padding: 8px 13px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 12px;
+            font-weight: bold;
+            transition: 0.2s ease;
         }
 
         .delete-btn:hover {
-            background: #b92332;
+            background: #dc3545;
+            color: white;
         }
 
         .empty {
             text-align: center;
-            padding: 35px;
+            padding: 35px 20px;
             color: #888;
             font-size: 14px;
         }
 
-        footer {
+
+        /* ================= FOOTER ================= */
+
+        .footer {
             text-align: center;
-            padding: 20px;
             color: #888;
             font-size: 12px;
+            padding: 10px 0 25px;
+        }
+
+
+        /* ================= RESPONSIVE (sidebar stays fixed like students.html) ================= */
+
+        @media (max-width: 1100px) {
+
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
         }
 
         @media (max-width: 800px) {
-            .sidebar {
-                width: 70px;
-                padding: 25px 10px;
+
+            .topbar {
+                padding: 0 20px;
             }
 
-            .logo h2,
-            .logo p,
-            .menu-title,
-            .menu a span {
+            .content {
+                padding: 20px;
+            }
+
+            .card-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .admin-name {
                 display: none;
-            }
-
-            .logo-icon {
-                font-size: 30px;
-            }
-
-            .menu a {
-                justify-content: center;
-                padding: 13px 5px;
-            }
-
-            .menu-icon {
-                width: auto;
-            }
-
-            .logout-menu {
-                left: 10px;
-                right: 10px;
-            }
-
-            .logout-menu a span {
-                display: none;
-            }
-
-            .main {
-                margin-left: 70px;
             }
 
             .form-grid {
                 grid-template-columns: 1fr;
             }
 
-            .books-header {
-                flex-direction: column;
-                align-items: flex-start;
+        }
+
+        @media (max-width: 600px) {
+
+            .page-title {
+                font-size: 19px;
             }
 
-            .search-box input {
-                width: 100%;
+            .page-subtitle {
+                display: none;
             }
+
+            .content {
+                padding: 15px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
         }
+
     </style>
 </head>
 
 <body>
 
-    <!-- SIDEBAR -->
+    <!-- ================= SIDEBAR ================= -->
+
     <aside class="sidebar">
 
         <div class="logo">
-            <div class="logo-icon">📚</div>
-            <h2>Library Management</h2>
-            <p>SMART LIBRARY SYSTEM</p>
+
+            <div class="logo-icon">
+                📚
+            </div>
+
+            <h2>
+                Library Management
+            </h2>
+
+            <p>
+                ADMIN PANEL
+            </p>
+
         </div>
 
-        <div class="menu-title">Management</div>
+        <div class="menu-title">
+            Main Menu
+        </div>
 
-        <div class="menu">
+        <nav class="menu">
 
             <a href="{{ url_for('dashboard') }}">
                 <span class="menu-icon">🏠</span>
@@ -423,7 +550,7 @@
             </a>
 
             <a href="{{ url_for('return_book') }}">
-                <span class="menu-icon">🔄</span>
+                <span class="menu-icon">↩️</span>
                 <span>Return Book</span>
             </a>
 
@@ -432,146 +559,268 @@
                 <span>Manage Fine</span>
             </a>
 
-        </div>
+        </nav>
 
         <div class="logout-menu">
+
             <a href="{{ url_for('logout') }}">
                 <span>🚪</span>
                 <span>Logout</span>
             </a>
+
         </div>
 
     </aside>
 
 
-    <!-- MAIN -->
-    <main class="main">
+    <!-- ================= MAIN CONTENT ================= -->
 
-        <div class="topbar">
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
             <div>
-                <h1>Manage Books</h1>
-                <p>Add, search and manage library books</p>
+
+                <div class="page-title">
+                    Manage Books
+                </div>
+
+                <div class="page-subtitle">
+                    Add, view and manage library books
+                </div>
+
             </div>
 
-            <div class="admin-info">
-                👤 {{ session.get('username') }}
-            </div>
-        </div>
 
+            <!-- ADMIN PROFILE -->
+
+            <div class="admin-box">
+
+                <div class="admin-name">
+                    {{ session.get('username', 'Admin') }}
+                </div>
+
+                <div class="admin-icon">
+                    👤
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
 
         <section class="content">
 
-            <!-- BACK TO DASHBOARD -->
-            <a href="{{ url_for('dashboard') }}" class="back-dashboard">
+
+            <!-- BACK BUTTON -->
+
+            <a href="{{ url_for('dashboard') }}" class="back-btn">
                 ← Back to Dashboard
             </a>
 
 
-            <!-- PAGE HEADING -->
-            <div class="page-heading">
-                <h2>📚 Book Management</h2>
-                <p>Manage all books available in the library</p>
-            </div>
+            <!-- FLASH MESSAGE -->
 
-
-            <!-- FLASH MESSAGES -->
             {% with messages = get_flashed_messages() %}
+
                 {% if messages %}
+
                     {% for message in messages %}
+
                         <div class="message">
                             {{ message }}
                         </div>
+
                     {% endfor %}
+
                 {% endif %}
+
             {% endwith %}
 
 
-            <!-- ADD BOOK -->
-            <div class="add-box">
+            <!-- ================= ADD BOOK ================= -->
 
-                <div class="box-title">
-                    ➕ Add New Book
-                </div>
+            <div class="card">
 
-                <form action="{{ url_for('add_book') }}" method="POST">
+                <div class="card-header">
 
-                    <div class="form-grid">
+                    <div>
 
-                        <div class="form-group">
-                            <label>Book Title</label>
-                            <input type="text"
-                                   name="title"
-                                   placeholder="Enter book title"
-                                   required>
+                        <div class="card-title">
+                            ➕ Add New Book
                         </div>
 
-                        <div class="form-group">
-                            <label>Author</label>
-                            <input type="text"
-                                   name="author"
-                                   placeholder="Enter author name"
-                                   required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Category</label>
-
-                            <select name="category_id" required>
-                                <option value="">Select Category</option>
-
-                                {% for category in categories %}
-                                    <option value="{{ category.category_id }}">
-                                        {{ category.category_name }}
-                                    </option>
-                                {% endfor %}
-
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Quantity</label>
-                            <input type="number"
-                                   name="quantity"
-                                   min="1"
-                                   placeholder="Enter quantity"
-                                   required>
+                        <div class="card-description">
+                            Enter book details to add a new book to the library
                         </div>
 
                     </div>
 
-                    <button type="submit" class="submit-btn">
-                        ➕ Add Book
-                    </button>
+                </div>
+
+
+                <form method="POST" action="{{ url_for('add_book') }}">
+
+                    <div class="form-grid">
+
+
+                        <!-- BOOK TITLE -->
+
+                        <div class="form-group">
+
+                            <label for="title">
+                                Book Title
+                            </label>
+
+                            <input
+                                type="text"
+                                id="title"
+                                name="title"
+                                placeholder="Enter book title"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- AUTHOR -->
+
+                        <div class="form-group">
+
+                            <label for="author">
+                                Author
+                            </label>
+
+                            <input
+                                type="text"
+                                id="author"
+                                name="author"
+                                placeholder="Enter author name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- CATEGORY -->
+
+                        <div class="form-group">
+
+                            <label for="category_id">
+                                Category
+                            </label>
+
+                            <select
+                                id="category_id"
+                                name="category_id"
+                                required
+                            >
+
+                                <option
+                                    value=""
+                                    disabled
+                                    selected
+                                >
+                                    Select category
+                                </option>
+
+
+                                {% for category in categories %}
+
+                                    <option
+                                        value="{{ category.category_id }}"
+                                    >
+                                        {{ category.category_name }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- QUANTITY -->
+
+                        <div class="form-group">
+
+                            <label for="quantity">
+                                Quantity
+                            </label>
+
+                            <input
+                                type="number"
+                                id="quantity"
+                                name="quantity"
+                                min="1"
+                                placeholder="Enter quantity"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- ADD BUTTON -->
+
+                        <div class="form-group">
+
+                            <button
+                                type="submit"
+                                class="add-btn"
+                            >
+                                ➕ Add Book
+                            </button>
+
+                        </div>
+
+                    </div>
 
                 </form>
 
             </div>
 
 
-            <!-- BOOK LIST -->
-            <div class="books-box">
+            <!-- ================= BOOK LIST ================= -->
 
-                <div class="books-header">
+            <div class="card">
+
+                <div class="card-header">
 
                     <div>
-                        <div class="box-title" style="margin-bottom: 5px;">
-                            📖 Books List
+
+                        <div class="card-title">
+                            📚 Books List
                         </div>
 
-                        <div class="book-count">
-                            Total Books: {{ books|length }}
+                        <div class="card-description">
+                            View and manage all books available in the library
                         </div>
+
                     </div>
 
+
+                    <!-- SEARCH -->
+
                     <div class="search-box">
-                        <input type="text"
-                               id="bookSearch"
-                               placeholder="🔍 Search books..."
-                               onkeyup="searchBooks()">
+
+                        <input
+                            type="text"
+                            id="bookSearch"
+                            placeholder="Search books..."
+                            onkeyup="searchBooks()"
+                        >
+
                     </div>
 
                 </div>
 
+
+                <!-- BOOK TABLE -->
 
                 {% if books %}
 
@@ -580,7 +829,9 @@
                         <table id="booksTable">
 
                             <thead>
+
                                 <tr>
+
                                     <th>ID</th>
                                     <th>Title</th>
                                     <th>Author</th>
@@ -588,8 +839,11 @@
                                     <th>Quantity</th>
                                     <th>Available</th>
                                     <th>Action</th>
+
                                 </tr>
+
                             </thead>
+
 
                             <tbody>
 
@@ -597,11 +851,11 @@
 
                                     <tr>
 
-                                        <td>
+                                        <td class="book-id">
                                             {{ book.book_id }}
                                         </td>
 
-                                        <td>
+                                        <td class="book-title">
                                             {{ book.title }}
                                         </td>
 
@@ -617,17 +871,22 @@
                                             {{ book.quantity }}
                                         </td>
 
-                                        <td>
+                                        <td class="available">
                                             {{ book.available_quantity }}
                                         </td>
 
                                         <td>
 
-                                            <form action="{{ url_for('delete_book', book_id=book.book_id) }}"
-                                                  method="POST"
-                                                  onsubmit="return confirm('Are you sure you want to delete this book?');">
+                                            <form
+                                                method="POST"
+                                                action="{{ url_for('delete_book', book_id=book.book_id) }}"
+                                                onsubmit="return confirm('Are you sure you want to delete this book?');"
+                                            >
 
-                                                <button type="submit" class="delete-btn">
+                                                <button
+                                                    type="submit"
+                                                    class="delete-btn"
+                                                >
                                                     🗑 Delete
                                                 </button>
 
@@ -655,41 +914,66 @@
 
             </div>
 
+
+            <!-- FOOTER -->
+
+            <div class="footer">
+                © 2026 Library Management System | All Rights Reserved.
+            </div>
+
         </section>
-
-
-        <footer>
-            © 2026 Library Management System | All Rights Reserved
-        </footer>
 
     </main>
 
+
+    <!-- ================= SEARCH JAVASCRIPT ================= -->
 
     <script>
 
         function searchBooks() {
 
-            const input = document.getElementById("bookSearch");
-            const filter = input.value.toLowerCase();
-            const table = document.getElementById("booksTable");
+            const input =
+                document.getElementById("bookSearch");
+
+            const table =
+                document.getElementById("booksTable");
+
 
             if (!table) {
                 return;
             }
 
-            const rows = table.getElementsByTagName("tr");
 
-            for (let i = 1; i < rows.length; i++) {
+            const filter =
+                input.value.toLowerCase();
 
-                const text = rows[i].textContent.toLowerCase();
 
-                if (text.includes(filter)) {
+            const rows =
+                table
+                .getElementsByTagName("tbody")[0]
+                .getElementsByTagName("tr");
+
+
+            for (let i = 0; i < rows.length; i++) {
+
+                const rowText =
+                    rows[i]
+                    .textContent
+                    .toLowerCase();
+
+
+                if (rowText.includes(filter)) {
+
                     rows[i].style.display = "";
+
                 } else {
+
                     rows[i].style.display = "none";
+
                 }
 
             }
+
         }
 
     </script>
